@@ -1,0 +1,6 @@
+alias store-start='docker-compose start'
+alias store-stop='docker-compose stop'
+alias store-up='docker-compose up -d'
+alias store-down='docker-compose down --rmi all'
+alias store-status='docker-compose ps'
+alias store-cmd='docker-compose run'
