@@ -10,23 +10,22 @@ RUN cp -rvf /opt/server-config/* /
 
 ENV DEBIAN_FRONTEND=noninteractive
 RUN apt-get update && apt-get install \
-  -y --force-yes \
-  --no-install-suggests --no-install-recommends \
-    mysql-client-5.5 \
-    mysql-server-5.5
+  mysql-client-5.5 \
+  mysql-server-5.5
 
 RUN mysqld_safe & \
   sleep 10s && \
 
-  # populating newly created server
-  mysql_query="mysql -h 127.0.0.1" && \
-
-  echo "CREATE USER '$MYSQL_USER_NAME'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD';" | $mysql_query && \
-  echo "CREATE DATABASE $MYSQL_USER_DATABASE CHARACTER SET utf8 COLLATE utf8_general_ci;" | $mysql_query && \
-  echo "SELECT User, Host FROM mysql.user" | $mysql_query && \
-
+  ### populating newly created server ###
+  mysql_query="mysql -h 127.0.0.1 -B -e" && \
+  # database creation
+  $mysql_query "CREATE DATABASE $MYSQL_USER_DATABASE CHARACTER SET utf8 COLLATE utf8_general_ci;" && \
+  # user creation
+  $mysql_query "CREATE USER '$MYSQL_USER_NAME'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD';" && \
+  $mysql_query "GRANT ALL PRIVILEGES ON $MYSQL_USER_DATABASE.* TO '$MYSQL_USER_NAME'@'%';" && \
+  $mysql_query "SHOW GRANTS FOR '$MYSQL_USER_NAME';" && \
   # Setting root password
-  echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MYSQL_ROOT_PASSWORD'); FLUSH PRIVILEGES;" | mysql -h 127.0.0.1 && \
+  $mysql_query "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MYSQL_ROOT_PASSWORD'); FLUSH PRIVILEGES;" && \
   
   killall mysqld && \
   sleep 10s

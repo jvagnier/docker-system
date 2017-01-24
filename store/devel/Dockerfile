@@ -6,16 +6,23 @@ ADD ./config/devel /opt/server-config
 RUN cp -rvf /opt/server-config/* /
 
 # Install Debian Tools
-RUN apt-get install -y --force-yes --no-install-suggests --no-install-recommends \
+RUN apt-get update && apt-get install \
   git git-core \
   php5 php5-cgi php5-mysql \
   mysql-client
 
 RUN mkdir --parents /opt/composer/bin && cd /opt/composer/bin && \
-  php -r "copy('https://getcomposer.org/installer', 'composer-setup.php');" && \
-  php -r "if (hash_file('SHA384', 'composer-setup.php') === '55d6ead61b29c7bdee5cccfb50076874187bd9f21f65d8991d46ec5cc90518f447387fb9f76ebae1fbbacf329e583e30') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
+  echo "[x] Getting installer signature" && \
+  INSTALLER_SIG=$(wget https://composer.github.io/installer.sig --no-check-certificate -qO -) && \
+  echo "[x] Downloading installer" && \
+  wget https://getcomposer.org/installer --no-check-certificate -qO composer-setup.php && \
+  echo "[x] Done: $(ls -l composer-setup.php)" && \
+
+  echo "[x] Installing composer with signature: $INSTALLER_SIG" && \
+  php -r "if (hash_file('SHA384', 'composer-setup.php') === '$INSTALLER_SIG') { echo 'Installer verified'; } else { echo 'Installer corrupt'; unlink('composer-setup.php'); } echo PHP_EOL;" && \
   php composer-setup.php && \
   php -r "unlink('composer-setup.php');" && \
+
   ln -s /opt/composer/bin/composer.phar /usr/local/bin/composer
 
 RUN mkdir --parents /opt/drush-8 && cd /opt/drush-8 && \

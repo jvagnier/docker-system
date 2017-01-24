@@ -7,9 +7,9 @@ RUN cp -rvf /opt/server-config/* /
 ENV DEBIAN_FRONTEND=noninteractive
 
 # Update all packages
-RUN apt-get update && apt-get upgrade -y
+RUN apt-get update && apt-get upgrade
 
 # Install Debian Tools
-RUN apt-get install -y --force-yes --no-install-suggests \
+RUN apt-get install \
   wget \
   net-tools

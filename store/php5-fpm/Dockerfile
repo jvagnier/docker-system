@@ -5,7 +5,7 @@ ADD ./config/php5-fpm /opt/server-config
 
 ENV DEBIAN_FRONTEND=noninteractive
 
-RUN apt-get install -y --force-yes --no-install-suggests \
+RUN apt-get install \
   php5 php5-fpm php5-mysql
 
 RUN cp -rvf /opt/server-config/etc/php5/fpm/* /etc/php5/fpm/
