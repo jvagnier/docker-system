@@ -1,11 +1,9 @@
 FROM debian-dev:0.0.1
 
-ARG mysql_root_password
-ARG mysql_user_name
-ARG mysql_user_password
-ENV MYSQL_ROOT_PASSWORD=$mysql_root_password
-ENV MYSQL_USER_NAME=$mysql_user_name_
-ENV MYSQL_USER_PASSWORD=$mysql_user_password
+ARG MYSQL_ROOT_PASSWORD
+ARG MYSQL_USER_NAME
+ARG MYSQL_USER_PASSWORD
+ARG MYSQL_USER_DATABASE
 
 ADD ./config/mysql55 /opt/server-config
 RUN cp -rvf /opt/server-config/* /
@@ -20,8 +18,15 @@ RUN apt-get update && apt-get install \
 RUN mysqld_safe & \
   sleep 10s && \
 
-  mysql -h 127.0.0.1 < /tmp/default.sql && \
-  mysql -h 127.0.0.1 < /tmp/db.sql && \
+  # populating newly created server
+  mysql_query="mysql -h 127.0.0.1" && \
+
+  echo "CREATE USER '$MYSQL_USER_NAME'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD';" | $mysql_query && \
+  echo "CREATE DATABASE $MYSQL_USER_DATABASE CHARACTER SET utf8 COLLATE utf8_general_ci;" | $mysql_query && \
+  echo "SELECT User, Host FROM mysql.user" | $mysql_query && \
+
+  # Setting root password
+  echo "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MYSQL_ROOT_PASSWORD'); FLUSH PRIVILEGES;" | mysql -h 127.0.0.1 && \
   
   killall mysqld && \
   sleep 10s

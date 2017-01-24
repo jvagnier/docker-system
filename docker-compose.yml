@@ -10,11 +10,13 @@ services:
     container_name: devel-0.0.1
     volumes:
       - "./data/www:/var/www/html"
+      - "./data/phpmyadmin:/var/www/phpmyadmin"
     networks:
       - front
       - back
     links:
       - debian
+      - mysql55
       - php5_fpm
       - nginx
   nginx:
@@ -51,25 +53,16 @@ services:
     links:
       - debian
       - mysql55
-  php5:
-    image: php5:0.0.1
-    build:
-      context: .
-      dockerfile: ./store/php5/Dockerfile
-    container_name: php5-0.0.1
-    volumes:
-      - "./data/www:/var/www/html"
-      - "./data/phpmyadmin:/var/www/phpmyadmin"
-    networks:
-      - back
-    links:
-      - debian
-      - mysql55
   mysql55:
     image: mysql55:0.0.1
     build:
       context: .
       dockerfile: ./store/mysql55/Dockerfile
+      args:
+        MYSQL_ROOT_PASSWORD: root2017
+        MYSQL_USER_NAME: jojo
+        MYSQL_USER_PASSWORD: jojo2017
+        MYSQL_USER_DATABASE: website
     container_name: mysql55-0.0.1
     expose: 
       - 3306 
