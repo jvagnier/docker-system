@@ -1,5 +1,5 @@
-# NGinx image based on debian
-FROM localhost:9876/debian-dev:0.0.1
+# PHP5-FPM image based on debian
+FROM debian-dev:0.0.1
 
 ADD ./config/php5-fpm /opt/server-config
 

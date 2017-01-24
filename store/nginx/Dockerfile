@@ -1,5 +1,5 @@
 # NGinx image based on debian
-FROM localhost:9876/debian-dev:0.0.1
+FROM debian-dev:0.0.1
 
 ADD ./config/nginx /opt/server-config
 RUN cp -rvf /opt/server-config/* /

@@ -1,4 +1,4 @@
-# NGinx image based on debian
+# Debian image based on debian
 FROM debian:jessie
 
 ADD ./config/debian /opt/server-config

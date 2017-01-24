@@ -1,4 +1,4 @@
-FROM localhost:9876/debian-dev:0.0.1
+FROM debian-dev:0.0.1
 
 ADD ./config/php5 /opt/server-config
 ADD ./data/www /var/www/html

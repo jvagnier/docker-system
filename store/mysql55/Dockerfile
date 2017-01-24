@@ -1,4 +1,4 @@
-FROM localhost:9876/debian-dev:0.0.1
+FROM debian-dev:0.0.1
 
 ARG mysql_root_password
 ARG mysql_user_name

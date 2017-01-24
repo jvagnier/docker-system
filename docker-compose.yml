@@ -3,7 +3,7 @@ version: '2'
 services:
 
   devel:
-    image: localhost:9876/devel:0.0.1
+    image: devel:0.0.1
     build:
       context: .
       dockerfile: ./store/devel/Dockerfile
@@ -19,7 +19,7 @@ services:
       - nginx
     
   nginx:
-    image: localhost:9876/nginx:0.0.1
+    image: nginx:0.0.1
     build:
       context: .
       dockerfile: ./store/nginx/Dockerfile
@@ -37,7 +37,7 @@ services:
       - debian
     
   php5_fpm:
-    image: localhost:9876/php5-fpm:0.0.1
+    image: php5-fpm:0.0.1
     build:
       context: .
       dockerfile: ./store/php5-fpm/Dockerfile
@@ -55,7 +55,7 @@ services:
       - mysql55
     
   php5:
-    image: localhost:9876/php5:0.0.1
+    image: php5:0.0.1
     build:
       context: .
       dockerfile: ./store/php5/Dockerfile
@@ -70,7 +70,7 @@ services:
       - mysql55
     
   mysql55:
-    image: localhost:9876/mysql55:0.0.1
+    image: mysql55:0.0.1
     build:
       context: .
       dockerfile: ./store/mysql55/Dockerfile
@@ -83,7 +83,7 @@ services:
       - debian
     
   debian:
-    image: localhost:9876/debian-dev:0.0.1
+    image: debian-dev:0.0.1
     build:
       context: .
       dockerfile: ./store/debian/Dockerfile
