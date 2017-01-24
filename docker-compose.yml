@@ -17,7 +17,6 @@ services:
       - debian
       - php5_fpm
       - nginx
-    
   nginx:
     image: nginx:0.0.1
     build:
@@ -35,7 +34,6 @@ services:
       - back
     links:
       - debian
-    
   php5_fpm:
     image: php5-fpm:0.0.1
     build:
@@ -53,7 +51,6 @@ services:
     links:
       - debian
       - mysql55
-    
   php5:
     image: php5:0.0.1
     build:
@@ -68,7 +65,6 @@ services:
     links:
       - debian
       - mysql55
-    
   mysql55:
     image: mysql55:0.0.1
     build:
@@ -81,7 +77,6 @@ services:
       - back
     links:
       - debian
-    
   debian:
     image: debian-dev:0.0.1
     build:
