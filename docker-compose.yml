@@ -60,9 +60,9 @@ services:
       dockerfile: ./store/mysql55/Dockerfile
       args:
         MYSQL_ROOT_PASSWORD: root2017
-        MYSQL_USER_NAME: jojo
-        MYSQL_USER_PASSWORD: jojo2017
-        MYSQL_USER_DATABASE: website
+        MYSQL_USER: jojo
+        MYSQL_PASSWORD: jojo2017
+        MYSQL_DATABASE: website
     container_name: mysql55-0.0.1
     expose: 
       - 3306 

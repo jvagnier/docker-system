@@ -1,9 +1,9 @@
 FROM debian-dev:0.0.1
 
 ARG MYSQL_ROOT_PASSWORD
-ARG MYSQL_USER_NAME
-ARG MYSQL_USER_PASSWORD
-ARG MYSQL_USER_DATABASE
+ARG MYSQL_USER
+ARG MYSQL_PASSWORD
+ARG MYSQL_DATABASE
 
 ADD ./config/mysql55 /opt/server-config
 RUN cp -rvf /opt/server-config/* /
@@ -19,11 +19,11 @@ RUN mysqld_safe & \
   ### populating newly created server ###
   mysql_query="mysql -h 127.0.0.1 -B -e" && \
   # database creation
-  $mysql_query "CREATE DATABASE $MYSQL_USER_DATABASE CHARACTER SET utf8 COLLATE utf8_general_ci;" && \
+  $mysql_query "CREATE DATABASE $MYSQL_DATABASE CHARACTER SET utf8 COLLATE utf8_general_ci;" && \
   # user creation
-  $mysql_query "CREATE USER '$MYSQL_USER_NAME'@'%' IDENTIFIED BY '$MYSQL_USER_PASSWORD';" && \
-  $mysql_query "GRANT ALL PRIVILEGES ON $MYSQL_USER_DATABASE.* TO '$MYSQL_USER_NAME'@'%';" && \
-  $mysql_query "SHOW GRANTS FOR '$MYSQL_USER_NAME';" && \
+  $mysql_query "CREATE USER '$MYSQL_USER'@'%' IDENTIFIED BY '$MYSQL_PASSWORD';" && \
+  $mysql_query "GRANT ALL PRIVILEGES ON $MYSQL_DATABASE.* TO '$MYSQL_USER'@'%';" && \
+  $mysql_query "SHOW GRANTS FOR '$MYSQL_USER';" && \
   # Setting root password
   $mysql_query "SET PASSWORD FOR 'root'@'localhost' = PASSWORD('$MYSQL_ROOT_PASSWORD'); FLUSH PRIVILEGES;" && \
   
