@@ -1,0 +1,5 @@
+# Règles pour l'installation automatique
+APT::Get::Assume-Yes "true";
+APT::Get::Force-Yes "true";
+APT::Install-Recommends "false";
+APT::Install-Suggests "false"; 
