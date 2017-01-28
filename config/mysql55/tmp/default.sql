@@ -1,3 +1,0 @@
-CREATE USER 'jojo'@'%' IDENTIFIED BY 'jojo123';
-GRANT ALL PRIVILEGES ON website.* TO 'jojo'@'%';
-FLUSH PRIVILEGES;
